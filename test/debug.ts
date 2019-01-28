@@ -14,8 +14,6 @@ describe("debug", () => {
     debugSetting({
       doNotUseSamePrefix: true,
       doNotCreateSameFluxType: true,
-      logPrefix: true,
-      logFluxType: true,
     })
     actionCreatorFactory('namespace')
     expect(() => actionCreatorFactory('namespace')).toThrow()

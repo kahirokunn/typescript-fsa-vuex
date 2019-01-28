@@ -68,7 +68,7 @@ const debugSettings = {
 }
 const cachedPrefixList: string[] = []
 const cachedFluxTypeList: string[] = []
-export function debugSetting(settings: typeof debugSettings) {
+export function debugSetting(settings: Partial<typeof debugSettings>) {
   Object.assign(debugSettings, settings)
 }
 
