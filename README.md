@@ -1,7 +1,7 @@
 vuex-typescript-fsa
 ---
 
-The helper function for inferring a combination of action/mutation and handler 
+The helper function for inferring a combination of action/mutation and handler
 
 ## Installation
 
@@ -9,13 +9,21 @@ The helper function for inferring a combination of action/mutation and handler
 npm install vuex-typescript-fsa
 ```
 
-## Demo 
+or
+
+```
+yarn add vuex-typescript-fsa
+```
+
+## Demo
 
 ![demo](https://github.com/sue71/vuex-typescript-fsa/blob/images/demo-01.gif)
 
-## Usage 
+## Usage
 
-```
+### Basic
+
+```typescript
 const Increment = actionCreator<number>("Increment");
 
 const store = new Store<{ count: number }>({
@@ -23,12 +31,12 @@ const store = new Store<{ count: number }>({
     count: 0
   },
   actions: combineAction(
-    action(Increment, function(context, action) {
+    action(Increment, (context, action) => {
       context.commit(action);
     })
   ),
   mutations: combineMutation(
-    mutation(Increment, function(state, action) {
+    mutation(Increment, (state, action) => {
       state.count = action.payload;
     })
   )
@@ -36,6 +44,86 @@ const store = new Store<{ count: number }>({
 
 store.dispatch(Increment(10));
 ```
+
+### Vuex modules system and namespaced true
+
+```typescript
+export type RootState = {
+  counter: { count: number },
+}
+
+const Increment = actionCreator<number>("Increment");
+
+const store = new Store<RootState>({
+  modules: {
+    namespaced: true,
+    counter: {
+      state: {
+        count: 0
+      },
+      actions: combineAction<RootState["counter"]>(
+        action(Increment, (context, action) => {
+          context.commit(action);
+        })
+      ),
+      mutations: combineMutation<RootState["counter"]>(
+        mutation(Increment, (state, action) => {
+          state.count = action.payload;
+        })
+      )
+    }
+  }
+});
+
+store.dispatch(Increment(1, { namespace: "counter" }));
+```
+
+### Vuex modules system and namespaced false
+DX will resemble [typescript-fsa](https://github.com/aikoven/typescript-fsa)
+
+```typescript
+export type RootState = {
+  counter: { count: number },
+}
+
+const actionCreator = actionCreatorFactory("counter");
+const Increment = actionCreator<number>("Increment");
+
+const store = new Store<RootState>({
+  modules: {
+    counter: {
+      state: {
+        count: 0
+      },
+      actions: combineAction(
+        action(Increment, (context, action) => {
+          context.commit(action);
+        })
+      ),
+      mutations: combineMutation<RootState["counter"]>(
+        mutation(Increment, (state, action) => {
+          state.count = action.payload;
+        })
+      )
+    }
+  }
+});
+
+store.dispatch(Increment(1));
+```
+
+## Debug Mode
+
+```typescript
+// debugSetting for actionCreatorFactory
+debugSetting({
+  doNotUseSamePrefix: true, // default false
+  doNotCreateSameFluxType: true, // default false
+  logPrefix: false, // default false
+  logFluxType: false, // default false
+})
+```
+
 
 ## License
 
