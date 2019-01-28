@@ -6,7 +6,7 @@
   "files": [
     "lib"
   ],
-  "dependencies": {
+  "peerDependencies": {
     "vuex": "^3.1.0"
   },
   "devDependencies": {
