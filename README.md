@@ -1,18 +1,19 @@
-vuex-typescript-fsa
+typescript-fsa-vuex
 ---
 
-The helper function for inferring a combination of action/mutation and handler
+The helper function for inferring a combination of action/mutation and handler.
+This repository is forked from [vuex-typescript-fsa](https://github.com/sue71/vuex-typescript-fsa).
 
 ## Installation
 
 ```
-npm install vuex-typescript-fsa
+npm install typescript-fsa-vuex
 ```
 
 or
 
 ```
-yarn add vuex-typescript-fsa
+yarn add typescript-fsa-vuex
 ```
 
 ## Demo
