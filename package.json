@@ -1,5 +1,6 @@
 {
   "name": "typescript-fsa-vuex",
+  "version": "1.0.0",
   "scripts": {
     "lint": "tslint src/* test/* --fix",
     "build": "tsc",
@@ -41,7 +42,6 @@
     "vuex-typescript",
     "TypeScript"
   ],
-  "version": "0.9.4",
   "description": "The helper which makes vuex more type-safety",
   "main": "lib/index.js",
   "author": "k-okina",
