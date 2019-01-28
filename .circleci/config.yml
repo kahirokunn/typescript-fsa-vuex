@@ -45,6 +45,16 @@ jobs:
           name: send coverage
           command: yarn codecov
 
+  lint:
+    executor: default
+    steps:
+      - checkout
+      - attach_workspace:
+          at: ~/repo
+      - run:
+          name: Lint
+          command: yarn lint
+
 workflows:
   per_commit:
     jobs:
@@ -55,6 +65,13 @@ workflows:
               only: /.*/
       - test:
           name: test
+          requires:
+            - build
+          filters:
+            branches:
+              only: /.*/
+      - lint:
+          name: lint
           requires:
             - build
           filters:
