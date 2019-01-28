@@ -1,8 +1,8 @@
-import { actionCreatorFactory, debugSetting } from "../src/action-creator";
+import { actionCreatorFactory, debugSetting } from '../src/action-creator'
 
-describe("debug", () => {
+describe('debug', () => {
 
-  test("test no prefix actionCreatorFactory", () => {
+  test('test no prefix actionCreatorFactory', () => {
     // no error
     actionCreatorFactory()
     actionCreatorFactory()
@@ -20,6 +20,6 @@ describe("debug", () => {
     const fugafugaActionCreator = actionCreatorFactory('fugafuga')
     fugafugaActionCreator('piyo')
     expect(() => fugafugaActionCreator('piyo')).toThrow()
-  });
+  })
 
-});
+})

@@ -1,33 +1,33 @@
-import { actionCreator } from "../src/action-creator";
-import { combineMutation, mutation } from "../src";
-import Vue from "vue";
-import Vuex, { Store } from "vuex";
+import { actionCreator } from '../src/action-creator'
+import { combineMutation, mutation } from '../src'
+import Vue from 'vue'
+import Vuex, { Store } from 'vuex'
 
-describe("action-creator", () => {
-  describe("#vuex", () => {
-    Vue.use(Vuex);
+describe('action-creator', () => {
+  describe('#vuex', () => {
+    Vue.use(Vuex)
     interface Counter {
-      value: number;
+      value: number
     }
 
-    test("call void type payload mutation", () => {
-      const CountUp = actionCreator("COUNT_UP");
+    test('call void type payload mutation', () => {
+      const CountUp = actionCreator('COUNT_UP')
 
       const store = new Store<Counter>({
         state: {
-          value: 0
+          value: 0,
         },
         mutations: combineMutation(
-          mutation(CountUp, function(state) {
-            state.value++;
-          })
-        )
-      });
-      store.commit(CountUp());
-      expect(store.state.value).toEqual(1);
-      store.commit(CountUp());
-      expect(store.state.value).toEqual(2);
-    });
+          mutation(CountUp, (state) => {
+            state.value++
+          }),
+        ),
+      })
+      store.commit(CountUp())
+      expect(store.state.value).toEqual(1)
+      store.commit(CountUp())
+      expect(store.state.value).toEqual(2)
+    })
 
-  });
-});
+  })
+})

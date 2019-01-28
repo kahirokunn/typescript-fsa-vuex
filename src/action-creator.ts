@@ -1,4 +1,4 @@
-export type FluxType = string;
+export type FluxType = string
 
 /**
  * Action conformed to FSA
@@ -29,15 +29,7 @@ export type ActionCreator<Payload = void> = {
   type: FluxType;
   (payload: Payload, options?: Options): FSA<Payload>;
 } & (Payload extends void
-  ? {
-  /**
-   * Creates action with given payload and metadata.
-   *
-   * @param payload Action payload.
-   * @param meta Action metadata. Merged with `commonMeta` of Action Creator.
-   */
-  (payload?: Payload, options?: Options): FSA<Payload>;
-} : {})
+  ? (payload?: Payload, options?: Options) => FSA<Payload> : {})
 
 /**
  * Factory function for create ActionCreator
@@ -51,13 +43,13 @@ export function actionCreator<Payload = void>(type: FluxType): ActionCreator<Pay
           options && options.namespace ? `${options.namespace}/${type}` : type,
         payload,
         error: options && options.error,
-        meta: options && options.meta
-      };
+        meta: options && options.meta,
+      }
     },
     {
-      type
-    }
-  ) as ActionCreator<Payload>;
+      type,
+    },
+  ) as ActionCreator<Payload>
 }
 
 const debugSettings = {
@@ -80,6 +72,7 @@ export function actionCreatorFactory(prefix?: string) {
     cachedPrefixList.push(prefix)
   }
   if (debugSettings.logPrefix) {
+    // tslint:disable-next-line no-console
     console.log(`Success to used prefix! That is [${prefix}].`)
   }
   return <Payload = void>(type: FluxType): ActionCreator<Payload> => {
@@ -91,6 +84,7 @@ export function actionCreatorFactory(prefix?: string) {
       cachedFluxTypeList.push(base)
     }
     if (debugSettings.logFluxType) {
+      // tslint:disable-next-line no-console
       console.log(`Success to used FluxType! That is [${base}].`)
     }
     return Object.assign(
@@ -100,12 +94,12 @@ export function actionCreatorFactory(prefix?: string) {
             options && options.namespace ? `${options.namespace}/${base}` : base,
           payload,
           error: options && options.error,
-          meta: options && options.meta
-        };
+          meta: options && options.meta,
+        }
       },
       {
         type: base,
-      }
-    ) as ActionCreator<Payload>;
+      },
+    ) as ActionCreator<Payload>
   }
 }
