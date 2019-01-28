@@ -27,5 +27,9 @@
     "TypeScript"
   ],
   "author": "k-okina",
-  "license": "MIT"
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/k-okina/typescript-fsa-vuex/issues"
+  },
+  "homepage": "https://github.com/k-okina/typescript-fsa-vuex"
 }
