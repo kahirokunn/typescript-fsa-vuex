@@ -3,7 +3,7 @@ import { combineMutation, mutation } from "../src";
 import Vue from "vue";
 import Vuex, { Store } from "vuex";
 
-describe("helpers", () => {
+describe("action-creator-factory", () => {
   describe("#vuex", () => {
     Vue.use(Vuex);
     interface Counter {
