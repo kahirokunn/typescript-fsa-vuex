@@ -17,17 +17,13 @@ jobs:
       - checkout
       - restore_cache:
           keys:
-            - npm-cache-{{ arch }}-{{ .Branch }}-{{ checksum "package-lock.json" }}
-            - npm-cache-{{ arch }}-{{ .Branch }}
-            - npm-cache
+            - v1-dependencies-{{ checksum "yarn.lock" }}
+            - v1-dependencies-
       - run:
-          name: install npm dependencies
-          command: npm install
-      - run:
-          name: build
-          command: npm run build
+          name: Install dependencies
+          command: yarn --pure-lockfile
       - save_cache:
-          key: npm-cache-{{ arch }}-{{ .Branch }}-{{ checksum "package-lock.json" }}
+          key: v1-dependencies-{{ checksum "yarn.lock" }}
           paths:
             - node_modules
       - persist_to_workspace:
@@ -44,10 +40,10 @@ jobs:
           at: ~/repo
       - run:
           name: unit test
-          command: npm t
+          command: yarn test
       - run:
           name: send coverage
-          command: npm run codecov
+          command: yarn codecov
 
 workflows:
   per_commit:
