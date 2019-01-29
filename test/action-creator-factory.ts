@@ -1,4 +1,4 @@
-import { actionCreatorFactory } from '../src/action-creator'
+import { actionCreatorFactory } from '../src/action-creator-factory'
 import { combineMutation, mutation } from '../src'
 import Vue from 'vue'
 import Vuex, { Store } from 'vuex'

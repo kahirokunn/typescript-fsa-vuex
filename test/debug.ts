@@ -1,4 +1,4 @@
-import { actionCreatorFactory, debugSetting } from '../src/action-creator'
+import { actionCreatorFactory, debugSetting } from '../src/action-creator-factory'
 
 describe('debug', () => {
 
