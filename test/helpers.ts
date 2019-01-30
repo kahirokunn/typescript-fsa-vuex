@@ -2,7 +2,7 @@ import { actionCreator } from '../src/action-creator'
 import { action, combineAction, actionToMutation, combineMutation, mutation } from '../src'
 import Vue from 'vue'
 import Vuex, { Store } from 'vuex'
-import { ActionObject } from '../src/helpers'
+import { ActionObject, actionsToMutations } from '../src/helpers'
 
 describe('helpers', () => {
   const Action = actionCreator<string[]>('ACTION')
@@ -217,6 +217,36 @@ describe('helpers', () => {
         ),
       })
       store.dispatch(Action(['foo']))
+    })
+
+    test('simply mapping actions to mutations', () => {
+      const a = actionCreator<number>('A')
+      const b = actionCreator<string>('B')
+      const c = actionCreator('C')
+      const store = new Store({
+        actions: combineAction(
+          actionToMutation(Action),
+          actionsToMutations(a, b, c),
+        ),
+        mutations: combineMutation(
+          mutation(Action, (_, action) => {
+            expect(action.payload).toEqual(['foo'])
+          }),
+          mutation(a, (_, action) => {
+            expect(action.payload).toEqual(114514)
+          }),
+          mutation(b, (_, action) => {
+            expect(action.payload).toEqual('bar')
+          }),
+          mutation(c, (_, action) => {
+            expect(action.payload).toBeUndefined()
+          }),
+        ),
+      })
+      store.dispatch(Action(['foo']))
+      store.dispatch(a(114514))
+      store.dispatch(b('bar'))
+      store.dispatch(c())
     })
 
   })
