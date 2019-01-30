@@ -5,38 +5,45 @@ import {
   ActionCreator,
 } from './types'
 
-const debugSettings = {
+const settings = {
   doNotUseSamePrefix: false,
   doNotCreateSameFluxType: false,
   logPrefix: false,
   logFluxType: false,
+  addIdToSuffix: false,
 }
 const cachedPrefixList: string[] = []
 const cachedFluxTypeList: string[] = []
-export function debugSetting(settings: Partial<typeof debugSettings>) {
-  Object.assign(debugSettings, settings)
+// tslint:disable-next-line variable-name
+let _id = 0
+export function setting(config: Partial<typeof settings>) {
+  Object.assign(settings, config)
 }
 
 export function actionCreatorFactory(prefix?: string) {
-  if (prefix && debugSettings.doNotUseSamePrefix) {
+  if (prefix && settings.doNotUseSamePrefix) {
     if (cachedPrefixList.includes(prefix)) {
       throw Error(`Prefix [${prefix}] is already used.`)
     }
     cachedPrefixList.push(prefix)
   }
-  if (debugSettings.logPrefix) {
+  if (settings.logPrefix) {
     // tslint:disable-next-line no-console
     console.log(`Success to used prefix! That is [${prefix}].`)
   }
   return <Payload = void>(type: FluxType): ActionCreator<Payload> => {
-    const base = prefix ? `${prefix}/${type}` : type
-    if (debugSettings.doNotCreateSameFluxType) {
+    let base = prefix ? `${prefix}/${type}` : type
+    if (settings.addIdToSuffix) {
+      _id++
+      base = `${base}__${_id}`
+    }
+    if (settings.doNotCreateSameFluxType) {
       if (cachedFluxTypeList.includes(base)) {
         throw Error(`FluxType [${base}] is already used.`)
       }
       cachedFluxTypeList.push(base)
     }
-    if (debugSettings.logFluxType) {
+    if (settings.logFluxType) {
       // tslint:disable-next-line no-console
       console.log(`Success to used FluxType! That is [${base}].`)
     }
