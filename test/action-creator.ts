@@ -6,8 +6,8 @@ import Vuex, { Store } from 'vuex'
 describe('action-creator', () => {
   describe('#vuex', () => {
     Vue.use(Vuex)
-    interface Counter {
-      value: number
+    type Counter = {
+      value: number,
     }
 
     test('call void type payload mutation', () => {

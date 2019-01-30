@@ -1,5 +1,5 @@
 import { actionCreator } from '../src/action-creator'
-import { action, combineAction, combineMutation, mutation } from '../src'
+import { action, combineAction, actionToMutation, combineMutation, mutation } from '../src'
 import Vue from 'vue'
 import Vuex, { Store } from 'vuex'
 import { ActionObject } from '../src/helpers'
@@ -204,5 +204,20 @@ describe('helpers', () => {
       store.dispatch(Add(1))
       expect(store.state.value).toEqual(1)
     })
+
+    test('simply mapping action to mutation', () => {
+      const store = new Store({
+        actions: combineAction(
+          actionToMutation(Action),
+        ),
+        mutations: combineMutation(
+          mutation(Action, (_, action) => {
+            expect(action.payload).toEqual(['foo'])
+          }),
+        ),
+      })
+      store.dispatch(Action(['foo']))
+    })
+
   })
 })
