@@ -1,4 +1,4 @@
-import { actionCreatorFactory, debugSetting } from '../src/action-creator-factory'
+import { actionCreatorFactory, setting } from '../src/action-creator-factory'
 
 describe('debug', () => {
 
@@ -11,7 +11,7 @@ describe('debug', () => {
     tmpActionCreator('somekey')
     tmpActionCreator('somekey')
 
-    debugSetting({
+    setting({
       doNotUseSamePrefix: true,
       doNotCreateSameFluxType: true,
     })
@@ -20,6 +20,18 @@ describe('debug', () => {
     const fugafugaActionCreator = actionCreatorFactory('fugafuga')
     fugafugaActionCreator('piyo')
     expect(() => fugafugaActionCreator('piyo')).toThrow()
+  })
+
+  test('test add id to suffix', () => {
+    setting({
+      doNotUseSamePrefix: false,
+      doNotCreateSameFluxType: false,
+      addIdToSuffix: true,
+    })
+    const tmpActionCreator = actionCreatorFactory('fugafuga')
+    const type = 'somekey'
+    expect(tmpActionCreator(type).type === `${type}__1`)
+    expect(tmpActionCreator(type).type === `${type}__2`)
   })
 
 })
