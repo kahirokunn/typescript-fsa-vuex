@@ -59,6 +59,15 @@ export function actionToMutation<S, R, A extends ActionCreator<any>>(actionCreat
 }
 
 /**
+ * Create actions handler with type annotation.
+ * That handler will proxy actions object to mutations.
+ */
+export function actionsToMutations<S, R>(...actionCreators: Array<ActionCreator<any>>): ActionTree<S, R> {
+  return actionCreators.reduce((res, v) => Object.assign(res, actionToMutation(v)), {})
+}
+
+
+/**
  * Create mutation handler with type annotation
  */
 export function mutation<S, A extends ActionCreator<any>>(
