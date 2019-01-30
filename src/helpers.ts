@@ -1,5 +1,5 @@
 import { ActionContext, ActionTree, MutationTree, Store } from 'vuex'
-import { FSA, ActionCreator } from './action-creator'
+import { ImmutableFSA, ActionCreator } from './types'
 
 /**
  * Definition for annotating type parameter
@@ -39,10 +39,22 @@ export type Mutation<S, P> = (this: Store<S>, state: S, payload: P) => void
  */
 export function action<S, R, A extends ActionCreator<any>>(
   actionCreator: A,
-  action: Action<S, R, FSA<PayloadType<A>>>,
+  action: Action<S, R, ImmutableFSA<PayloadType<A>>>,
 ): ActionTree<S, R> {
   return {
     [actionCreator.type]: action,
+  }
+}
+
+/**
+ * Create action handler with type annotation.
+ * That handler will proxy action object to mutation.
+ */
+export function actionToMutation<S, R, A extends ActionCreator<any>>(actionCreator: A): ActionTree<S, R> {
+  return {
+    [actionCreator.type](context: ActionContext<S, R>, action: ImmutableFSA<PayloadType<A>>) {
+      context.commit(action)
+    },
   }
 }
 
@@ -51,7 +63,7 @@ export function action<S, R, A extends ActionCreator<any>>(
  */
 export function mutation<S, A extends ActionCreator<any>>(
   actionCreator: A,
-  mutation: Mutation<S, FSA<PayloadType<A>>>,
+  mutation: Mutation<S, ImmutableFSA<PayloadType<A>>>,
 ): MutationTree<S> {
   return {
     [actionCreator.type]: mutation,
