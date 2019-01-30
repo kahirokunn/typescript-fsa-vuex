@@ -1,10 +1,11 @@
-import { actionCreator } from '../src/action-creator'
+import { actionCreatorFactory } from '../src/action-creator-factory'
 import { action, combineAction, actionToMutation, combineMutation, mutation } from '../src'
 import Vue from 'vue'
 import Vuex, { Store } from 'vuex'
 import { ActionObject, actionsToMutations } from '../src/helpers'
 
 describe('helpers', () => {
+  const actionCreator = actionCreatorFactory()
   const Action = actionCreator<string[]>('ACTION')
   const Action2 = actionCreator<string[]>('ACTION2')
 
