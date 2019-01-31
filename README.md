@@ -21,6 +21,9 @@ yarn add typescript-fsa-vuex
 
 ![demo](https://github.com/sue71/vuex-typescript-fsa/blob/images/demo-01.gif)
 
+## Example repository
+https://github.com/k-okina/book-management
+
 ## Usage
 
 ### Basic
